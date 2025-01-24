@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letter-Binary Encoder/Decoder</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRs59V8YO8klUlnum1HEN82Tc0Ba8a51zwz7QoZmD"
+    crossorigin="anonymous"
+  >
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .output {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 15px;
+    }
+    textarea {
+      resize: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center mb-4">Letter-Binary Encoder/Decoder</h1>
+
+    <!-- Encoder Section -->
+    <div class="mb-4">
+      <h4>Letters to Binary</h4>
+      <textarea id="textInput" class="form-control mb-2" rows="3" placeholder="Enter text..."></textarea>
+      <button class="btn btn-primary" onclick="convertToBinary()">Convert to Binary</button>
+      <div id="binaryOutput" class="output"></div>
+    </div>
+
+    <!-- Decoder Section -->
+    <div>
+      <h4>Binary to Letters</h4>
+      <textarea id="binaryInput" class="form-control mb-2" rows="3" placeholder="Enter binary (space-separated)..."></textarea>
+      <button class="btn btn-success" onclick="convertToText()">Convert to Letters</button>
+      <div id="textOutput" class="output"></div>
+    </div>
+  </div>
+
+  <script>
+    // Convert letters to binary
+    function convertToBinary() {
+      const text = document.getElementById('textInput').value;
+      if (!text) {
+        document.getElementById('binaryOutput').innerText = "Please enter some text.";
+        return;
+      }
+
+      // Convert each character to binary
+      const binaryArray = text
+        .split('') // Split the string into characters
+        .map(char => char.charCodeAt(0).toString(2).padStart(8, '0')); // ASCII to binary
+
+      // Display the binary output
+      document.getElementById('binaryOutput').innerText = `Binary: ${binaryArray.join(' ')}`;
+    }
+
+    // Convert binary to letters
+    function convertToText() {
+      const binary = document.getElementById('binaryInput').value;
+      if (!binary) {
+        document.getElementById('textOutput').innerText = "Please enter binary data.";
+        return;
+      }
+
+      try {
+        // Convert each binary value to a character
+        const text = binary
+          .split(' ') // Split binary by spaces
+          .map(bin => String.fromCharCode(parseInt(bin, 2))) // Binary to ASCII
+          .join(''); // Join characters into a string
+
+        // Display the text output
+        document.getElementById('textOutput').innerText = `Text: ${text}`;
+      } catch (error) {
+        document.getElementById('textOutput').innerText = "Invalid binary input!";
+      }
+    }
+  </script>
+</body>
+</html>
